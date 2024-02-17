@@ -12,10 +12,14 @@ MONGO_SOURCE=
 MONGO_USER=
 MONGO_PASSWORD=
 MONGO_ADMINUSER=
+RUN_DJANGO=python manage.py runserver 0.0.0.0:8000
+ACCESS_PORT=8000:8000
 ```
 
 - `SECRET_KEY` is django settings/SECRET_KEY. provided default value works fine but recommended to replace with your project SECRET_KEY. 
-- `MONGO_SOURCE` in most cases is: admin  
+- `MONGO_SOURCE` in most cases is: admin
+- `RUN_DJANGO` runs django projects. can be blank to run project manually with uwsgi, nginx...
+- `ACCESS_PORT` make project could run in specified port. can't be blank.  
 
 
 ### run project

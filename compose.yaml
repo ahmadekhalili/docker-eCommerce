@@ -51,12 +51,12 @@ services:
       - |
         python manage.py makemigrations
         python manage.py migrate
-        python manage.py runserver 0.0.0.0:8000
+        $RUN_DJANGO
         tail -f /dev/null
     env_file:
       - .env
     ports:
-      - "8000:8000"
+      - "$ACCESS_PORT"
     depends_on:
       - postgres_db
       - mongo_db
