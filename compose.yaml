@@ -1,0 +1,73 @@
+version: '1'
+
+services:
+  postgres_db:
+    build:
+      context: .
+      dockerfile: postgres/Dockerfile
+    container_name: postgres
+    restart: always
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf | postgres -c pg_config=/etc/postgresql/pg_hba.conf
+    environment:
+      POSTGRES_USER: $POSTGRES_ADMINUSER
+      POSTGRES_PASSWORD: $POSTGRES_USER_PASS
+    env_file:
+      - .env
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork
+
+  mongo_db:
+    build:
+      context: .
+      dockerfile: mongo/Dockerfile
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASSWORD
+      MONGO_INITDB_DATABASE: test
+    env_file:
+      - .env
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo:/data/db
+    networks:
+      - mynetwork
+
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: django
+    working_dir: /project/eCommerce-web-api-master/ictsun
+    command:
+      - /bin/sh
+      - -c
+      - |
+        python manage.py makemigrations
+        python manage.py migrate
+        python manage.py runserver 0.0.0.0:8000
+        tail -f /dev/null
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./eCommerce-web-api-master:/project/eCommerce-web-api-master
+    depends_on:
+      - postgres_db
+      - mongo_db
+    networks:
+      - mynetwork
+
+volumes:
+  postgres:
+  mongo:
+
+networks:
+  mynetwork:
