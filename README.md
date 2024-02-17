@@ -31,6 +31,11 @@ docker compose up
 It has to download about 2GB, so could take long time.
 
 **Note:** It's recomended create `mongo` and `postgres` volume before starting dockerized project.
+```
+docker volume create mongo
+docker volume create postgres
+```   
+
 
 **Project file permission:** You should change project file permission (after cloning) if you are using Virtual machine:
 ```
