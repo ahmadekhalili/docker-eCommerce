@@ -57,8 +57,6 @@ services:
       - .env
     ports:
       - "8000:8000"
-    volumes:
-      - ./eCommerce-web-api-master:/project/eCommerce-web-api-master
     depends_on:
       - postgres_db
       - mongo_db
