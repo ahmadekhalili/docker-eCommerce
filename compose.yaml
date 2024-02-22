@@ -10,7 +10,7 @@ services:
     command: postgres -c config_file=/etc/postgresql/postgresql.conf | postgres -c pg_config=/etc/postgresql/pg_hba.conf
     environment:
       POSTGRES_USER: $POSTGRES_ADMINUSER
-      POSTGRES_PASSWORD: $POSTGRES_USER_PASS
+      POSTGRES_PASSWORD: $POSTGRES_USERPASS
     env_file:
       - .env
     volumes:
@@ -28,7 +28,7 @@ services:
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: $MONGO_PASSWORD
+      MONGO_INITDB_ROOT_PASSWORD: $MONGO_USERPASS
       MONGO_INITDB_DATABASE: test
     env_file:
       - .env
